@@ -8,38 +8,93 @@ class MerchControl extends React.Component {
     super(props);
     this.state = {
       masterMerchList: [],
-      visibleOnPage: false,
-      selectedMerch: null
+      formVisibleOnPage: false,
+      selectedMerch: null,
+      editing: false
     };
   }
 
-  handleClick = () => {
-    this.setState(prevState => ({
-      visibleOnPage: !prevState.visibleOnPage
-    }));
+  handleEditClick = () => {
+    this.setState({editing: true});
   }
 
+
+  
+  handleClick = () => {
+    if (this.state.selectedMerch != null) {
+      this.setState({
+        formVisibleOnPage: false,
+        selectedMerch: null,
+        editing: false
+      });
+    } else {
+      this.setState(prevState => ({
+        formVisibleOnPage: !prevState.formVisibleOnPage
+      }));
+    }
+  }
+
+
+  handleChangingSelectedMerch = (id) => {
+    const selectedMerch = this.state.masterMerchList.filter(merch => merch.id === id)[0];
+    this.setState({selectedMerch: selectedMerch});
+  }
+  
   handleAddingNewMerchToList = (newMerch) => {
     const newMasterMerchList = this.state.masterMerchList.concat(newMerch);
-    this.setState({masterMerchList: newMasterMerchList, visibleOnPage: false});
+    this.setState({masterMerchList: newMasterMerchList, formVisibleOnPage: false});
   }
 
-  // increaseQuantityState = () => {
-  //   this.setState
-  // }
+  handleDeletingMerch = (id) => {
+    const newMasterMerchList = this.state.masterMerchList.filter(merch => merch.id !== id);
+    this.setState({masterMerchList: newMasterMerchList, selectedMerch: null})
+  }
 
-  // decreaseQuantityState = () => { 
-  //   this.setState
-  // }
+  handleEditingMerchInList = (merchToEdit) => {
+    const editedMasterMerchList = this.state.masterMerchList
+      .filter(merch => merch.id !== this.state.selectedMerch.id)
+      .concat(merchToEdit);
+      this.setState({masterMerchList: editedMasterMerchList, editing: false, selectedMerch: null});
+  }
 
+  
+  handleRestock = (item) => {
+    const newMasterMerchList = this.state.masterMerchList.filter(merch => merch.id !== item.id);
+    const newMerchItem = {
+      name: item.name,
+      description: item.description,
+      quantity: parseInt(item.quantity) + 1,
+      id: item.id
+    }
+    const newerList = newMasterMerchList.concat(newMerchItem);
+    this.setState({masterMerchList: newerList});
+  }
+  
+  handleAddToCart = (item) => {
+    const newMasterMerchList = this.state.masterMerchList.filter(merch => merch.id !== item.id);
+    const newMerchItem = {
+      name: item.name,
+      description: item.description,
+      quantity: parseInt(item.quantity) - 1,
+      id: item.id
+    }
+    const newerList = newMasterMerchList.concat(newMerchItem);
+    this.setState({masterMerchList: newerList});
+  }
+  
   render(){
+    console.log(this.state.masterMerchList);
     let currentlyVisibleState = null;
     let buttonText = null;
-    if (this.state.visibleOnPage) {
-      currentlyVisibleState = <NewMerchForm onNewMerchCreation={this.handleAddingNewMerchToList} />
+    if (this.state.formVisibleOnPage) {
+      currentlyVisibleState = <NewMerchForm onNewMerchCreation={this.handleAddingNewMerchToList} />;
       buttonText = "Return to Merch List";
     } else {
-      currentlyVisibleState = <MerchList merchList={this.state.masterMerchList} />;
+      currentlyVisibleState = <MerchList merchList={this.state.masterMerchList} 
+      onMerchSelection={this.handleChangingSelectedMerch}
+      onClickingDelete={this.handleDeletingMerch}
+      onClickingRestock={this.handleRestock}
+      onClickingAddToCart={this.handleAddToCart}/>;
       buttonText = "Add Merch"; 
     }
     return (

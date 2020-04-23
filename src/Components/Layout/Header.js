@@ -3,7 +3,7 @@ import React from "react";
 const Header = () => {
   return(
     <div style={styleHeader}>
-      <h1>It's Not A Placeholder</h1>
+      <h1>It's Not Placeholder Text</h1>
     </div>
   );
 };
@@ -13,7 +13,7 @@ const styleHeader  = {
   justifyContent: 'center', 
   margin: 0,
   backgroundColor: 'indigo',
-  color: 'white',
+  color: 'ivory',
   width: '100%',
   borderBottom: '5px solid black'
 }

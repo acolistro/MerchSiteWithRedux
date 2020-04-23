@@ -4,17 +4,9 @@ import PropTypes from 'prop-types';
 function Merch(props) {
   let quantity = '';
   if (props.quantity > 0) {
-    quantity = <h4>Quantity available: {props.quantity}</h4>;
+    quantity = <h3>Quantity available: {props.quantity}</h3>;
   } else {
     quantity = <h4>Out of stock</h4>;
-  }
-
-  function handleDecreaseQuantity() {
-    props.increaseQuantity({});
-  }
-
-  function handleIncreaseQuantity() {
-    props.decreaseQuantity();
   }
 
   const styledComponent = {
@@ -29,9 +21,12 @@ function Merch(props) {
     <div style={styledComponent}>
       <h2>Item name: {props.name}</h2>
       <h4>Description: {props.description}</h4>
-      <h4>{quantity}</h4>
-      <button onClick={handleDecreaseQuantity}>Add to cart</button>
-      <button onClick={handleIncreaseQuantity}>Restock</button>
+      <div>{quantity}</div>
+      <button onClick={()=> props.whenAddToCartClicked(props)}>Add to cart</button>
+      
+      <button onClick={()=> props.whenRestockClicked(props)}>Restock</button>
+      
+      <button onClick={() => props.whenMerchClicked(props.id)}>Remove Item</button>
     </div>
   );
 }
@@ -39,7 +34,10 @@ function Merch(props) {
 Merch.propTypes = {
   name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  quantity: PropTypes.number.isRequired
+  quantity: PropTypes.number.isRequired,
+  id: PropTypes.string,
+  whenMerchClicked: PropTypes.func,
+  whenRestockClicked: PropTypes.func
 };
 
 export default Merch;

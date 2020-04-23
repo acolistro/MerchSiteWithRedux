@@ -1,24 +1,20 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import Merch from './Merch';
-import MerchControl from '.././MerchControl';
 
 function MerchList(props) {
-  
-  function increaseQuantity() {
-    props.increaseQuantityState();
-  }
-  
-  function decreaseQuantity(){
-    props.decreaseQuantityState();
-  }
   
   return (
     <React.Fragment>
       {props.merchList.map((merch) =>
-      <Merch name={merch.name}
+      <Merch
+      whenRestockClicked={props.onClickingRestock} 
+      whenAddToCartClicked={props.onClickingAddToCart}
+      whenMerchClicked={props.onClickingDelete}
+      name={merch.name}
       description={merch.description}
       quantity={merch.quantity}
+      id={merch.id}
       key={merch.id} />
       )}
     </React.Fragment>
@@ -26,7 +22,9 @@ function MerchList(props) {
 }
 
 MerchList.propTypes = {
-  merchList: PropTypes.array
+  merchList: PropTypes.array,
+  onMerchSelection: PropTypes.func,
+  onClickingDelete: PropTypes.func
 };
 
 export default MerchList;
