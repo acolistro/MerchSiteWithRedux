@@ -1,6 +1,6 @@
-## Merch Store
+## Merch Store with Redux
 
-#### By: Joseph Wangerman, Geoff Goetz, Zakk Short | April 22nd 2020
+#### By: Joseph, Alyssa & Katy | April 27nd 2020
 
 ## Description 
 
@@ -66,4 +66,4 @@ _No known bugs at this time._
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
-Copyright &copy; 2020 **_Joseph Wangerman, Geoff Goetz, Zakk Short_**
+Copyright &copy; 2020 **_Joseph, Alyssa & Katy_**
