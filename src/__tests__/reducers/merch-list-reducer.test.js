@@ -58,6 +58,4 @@ describe('merchListReducer', () => {
       id: 2 }
     });
   });
-
-
 });
